@@ -24,6 +24,9 @@
             background-attachment: fixed;
             background-position: center;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         body::before {
@@ -35,6 +38,31 @@
             bottom: 0;
             background: rgba(255, 255, 255, 0.85);
             z-index: -1;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .main-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .main-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
         }
 
         .navbar {
@@ -58,6 +86,7 @@
             margin-top: 30px;
             margin-bottom: 30px;
             transition: transform 0.3s, box-shadow 0.3s;
+            flex: 1;
         }
 
         .order-container:hover {
@@ -156,6 +185,145 @@
             animation: float 15s infinite linear;
         }
 
+        /* Map container */
+        .map-container {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Address input with map button */
+        .address-input-group {
+            position: relative;
+        }
+
+        .map-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .map-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-logo {
+            max-height: 70px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h5 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links h5::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 80px 0 40px;
+            }
+
+            .main-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .order-container {
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
+
+            .map-container {
+                height: 200px;
+            }
+
+            .footer-links {
+                margin-bottom: 30px;
+            }
+        }
+
         @keyframes float {
             0% {
                 transform: translateY(0) rotate(0deg);
@@ -167,14 +335,6 @@
 
             100% {
                 transform: translateY(0) rotate(360deg);
-            }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .order-container {
-                margin-top: 15px;
-                margin-bottom: 15px;
             }
         }
     </style>
@@ -195,8 +355,17 @@
         </div>
     </nav>
 
-    <!-- Order Form Section -->
-    <section class="py-5">
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <h1 class="animate-on-scroll">Kopi Sederhana, Rasa Premium</h1>
+            <p class="animate-on-scroll">Nikmati pengalaman kopi terbaik di tempat yang hangat dan bersahabat. Setiap
+                cangkir diracik dengan sepenuh hati, menghadirkan cita rasa yang tak terlupakan.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -213,13 +382,22 @@
                                     <input type="text" class="form-control" id="nama" placeholder="Masukkan nama Anda"
                                         required>
                                 </div>
-
                                 <div class="mb-4 animate-on-scroll">
-                                    <label for="whatsapp" class="form-label fw-bold">
-                                        <i class="fas fa-phone coffee-icon"></i>Nomor WhatsApp
+                                    <label for="alamat" class="form-label fw-bold">
+                                        <i class="fas fa-map-marker-alt coffee-icon"></i>Alamat Pengiriman
                                     </label>
-                                    <input type="tel" class="form-control" id="whatsapp"
-                                        placeholder="Contoh: 081234567890" required>
+                                    <div class="address-input-group">
+                                        <input type="text" class="form-control pe-5" id="alamat"
+                                            placeholder="Masukkan alamat lengkap pengiriman" required>
+                                        <button type="button" class="map-btn" id="openMapBtn">
+                                            <i class="fas fa-map"></i>
+                                        </button>
+                                    </div>
+                                    <div class="map-container mt-3 d-none" id="mapContainer">
+                                        <iframe id="mapFrame" frameborder="0" style="border:0"
+                                            referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
+                                        </iframe>
+                                    </div>
                                 </div>
 
                                 <div class="mb-4 animate-on-scroll">
@@ -228,9 +406,9 @@
                                     </label>
                                     <select class="form-select" id="produk" required>
                                         <option value="">-- Pilih Produk Favorit Anda --</option>
-                                        <option value="Mandor Classic Blend">Mandor Classic Blend - Rp 75.000</option>
-                                        <option value="Mandor Dark Roast">Mandor Dark Roast - Rp 85.000</option>
-                                        <option value="Mandor Specialty">Mandor Specialty - Rp 120.000</option>
+                                        <option value="Mandor Classic Blend">Mandor Classic Blend - Rp 18.000</option>
+                                        <option value="Mandor Dark Roast">Mandor Dark Roast - Rp 20.000</option>
+                                        <option value="Mandor Specialty">Mandor Specialty - Rp 22.000</option>
                                     </select>
                                 </div>
 
@@ -253,7 +431,7 @@
                                         <i class="fas fa-edit coffee-icon"></i>Catatan Tambahan
                                     </label>
                                     <textarea class="form-control" id="catatan" rows="3"
-                                        placeholder="Contoh: Level kematangan roasting, alamat lengkap (jika berbeda), dll."></textarea>
+                                        placeholder="Contoh: Level kematangan roasting, detail alamat, dll."></textarea>
                                 </div>
 
                                 <div class="animate-on-scroll">
@@ -267,7 +445,47 @@
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center text-md-start">
+                    <img src="images/logo.png" alt="Kopi Mandor" class="footer-logo">
+                    <p>Kopi premium single origin. Diproses dengan penuh
+                        dedikasi untuk kenikmatan sejati.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 footer-links">
+                    <h5>Menu</h5>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="produk.html">Produk Kami</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="order.html">Pesan Sekarang</a></li>
+                        <li><a href="kontak.html">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 footer-links">
+                    <h5>Kontak</h5>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Yogyakarta</li>
+                        <li><i class="fas fa-phone me-2"></i> +62 877-4837-7660</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@kopimandor.com</li>
+                        <li><i class="fas fa-clock me-2"></i> Buka: Senin-Sabtu (08.00-17.00)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Kopi Mandor. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Floating coffee beans decoration -->
     <div class="coffee-bean" style="top: 15%; left: 10%; animation-delay: 0s;"></div>
@@ -308,11 +526,35 @@
                 }
             });
 
-            // Form submission
+            // Map functionality
+            const mapBtn = document.getElementById('openMapBtn');
+            const mapContainer = document.getElementById('mapContainer');
+            const mapFrame = document.getElementById('mapFrame');
+            const addressInput = document.getElementById('alamat');
+
+            mapBtn.addEventListener('click', function () {
+                mapContainer.classList.toggle('d-none');
+
+                if (!mapContainer.classList.contains('d-none')) {
+                    // Initialize map with default location (you can change this)
+                    const defaultLocation = "-0.1833,109.5667"; // Approximate coordinates of Mandor
+                    mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${defaultLocation}`;
+                }
+            });
+
+            // Update map when address changes (you would need to implement geocoding in a real app)
+            addressInput.addEventListener('change', function () {
+                if (addressInput.value && !mapContainer.classList.contains('d-none')) {
+                    // In a real implementation, you would geocode the address to get coordinates
+                    mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(addressInput.value)}`;
+                }
+            });
+
+            // Form submission to WhatsApp
             document.getElementById('orderForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 const nama = document.getElementById('nama').value;
-                const whatsapp = document.getElementById('whatsapp').value;
+                const alamat = document.getElementById('alamat').value;
                 const produk = document.getElementById('produk').value;
                 const jumlah = document.getElementById('jumlah').value;
                 const catatan = document.getElementById('catatan').value;
@@ -320,13 +562,15 @@
                 // Format WhatsApp message
                 const pesan = `Halo Kopi Mandor, saya ingin memesan:\n\n` +
                     `Nama: ${nama}\n` +
-                    `WhatsApp: ${whatsapp}\n` +
+                    `Alamat: ${alamat}\n` +
                     `Produk: ${produk}\n` +
                     `Jumlah: ${jumlah}\n` +
                     `Catatan: ${catatan || '-'}\n\n` +
                     `Mohon info total pembayaran dan cara pembayarannya. Terima kasih!`;
 
-                const url = `https://wa.me/62895613045098?text=${encodeURIComponent(pesan)}`;
+                // Direct to WhatsApp with the phone number +62 877-4837-7660
+                const phoneNumber = '6287748377660'; // Remove dashes and country code prefix
+                const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(pesan)}`;
                 window.open(url, '_blank');
 
                 // Add animation to button
