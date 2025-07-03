@@ -16,13 +16,11 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <!-- Google tag (gtag.js) -->
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPTVMQ0NQ7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-QPTVMQ0NQ7');
     </script>
 </head>
@@ -374,6 +372,53 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Tombol "Pesan Sekarang" di hero dan navbar
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('a[href="order.html"]').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    gtag('event', 'click_pesan_sekarang', {
+                        'event_category': 'interaksi',
+                        'event_label': 'Pesan Sekarang Tombol'
+                    });
+                });
+            });
+
+            // Tombol "Pesan" pada produk
+            document.querySelectorAll('a[href="#order"]').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    const product = this.closest('.product-card')?.querySelector('.card-title')?.innerText || 'Produk Tidak Dikenal';
+                    gtag('event', 'click_pesan_produk', {
+                        'event_category': 'produk',
+                        'event_label': product
+                    });
+                });
+            });
+
+            // Klik sosial media di footer
+            document.querySelectorAll('.social-icons a').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    const platform = this.querySelector('i')?.classList[1]?.replace('fa-', '') || 'unknown';
+                    gtag('event', 'click_sosial_media', {
+                        'event_category': 'sosial',
+                        'event_label': platform
+                    });
+                });
+            });
+
+            // Scroll 75% halaman
+            let scrolled = false;
+            window.addEventListener('scroll', function () {
+                if (!scrolled && window.scrollY + window.innerHeight >= document.body.scrollHeight * 0.75) {
+                    gtag('event', 'scroll_75', {
+                        'event_category': 'interaksi',
+                        'event_label': 'Scroll 75% Halaman'
+                    });
+                    scrolled = true;
+                }
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
