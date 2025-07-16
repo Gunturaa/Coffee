@@ -223,6 +223,44 @@
             background: var(--secondary-color);
         }
 
+        /* Coupon section styles */
+        .coupon-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px dashed #ddd;
+        }
+
+        .coupon-input-group {
+            display: flex;
+        }
+
+        .coupon-input-group .form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .coupon-input-group .btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            white-space: nowrap;
+        }
+
+        .coupon-message {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .coupon-success {
+            color: #28a745;
+        }
+
+        .coupon-error {
+            color: #dc3545;
+        }
+
         /* Footer Styles */
         .main-footer {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -321,6 +359,20 @@
 
             .footer-links {
                 margin-bottom: 30px;
+            }
+
+            .coupon-input-group {
+                flex-direction: column;
+            }
+
+            .coupon-input-group .form-control {
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+
+            .coupon-input-group .btn {
+                border-radius: 8px;
+                width: 100%;
             }
         }
 
@@ -423,6 +475,23 @@
                                             value="1" required>
                                         <button class="btn btn-outline-secondary" type="button"
                                             id="increment">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- New Coupon Code Section -->
+                                <div class="mb-4 animate-on-scroll">
+                                    <div class="coupon-container">
+                                        <label for="kupon" class="form-label fw-bold">
+                                            <i class="fas fa-tag coffee-icon"></i>Kode Kupon
+                                        </label>
+                                        <div class="coupon-input-group">
+                                            <input type="text" class="form-control" id="kupon" 
+                                                placeholder="Masukkan kode kupon (jika ada)">
+                                            <button type="button" class="btn btn-outline-primary" id="applyCouponBtn">
+                                                Terapkan Kupon
+                                            </button>
+                                        </div>
+                                        <div class="coupon-message" id="couponMessage"></div>
                                     </div>
                                 </div>
 
@@ -550,6 +619,43 @@
                 }
             });
 
+            // Coupon code functionality
+            const applyCouponBtn = document.getElementById('applyCouponBtn');
+            const couponInput = document.getElementById('kupon');
+            const couponMessage = document.getElementById('couponMessage');
+            
+            // List of valid coupon codes (you can add more)
+            const validCoupons = {
+                'MANDOR10': 10,   // 10% discount
+                'MANDOR20': 20,   // 20% discount
+                'MANDOR30': 30,   // 30% discount
+                'KOPIGRATIS': 100 // Free coffee (100% discount)
+            };
+
+            applyCouponBtn.addEventListener('click', function() {
+                const couponCode = couponInput.value.trim().toUpperCase();
+                couponMessage.style.display = 'block';
+                
+                if (couponCode === '') {
+                    couponMessage.textContent = 'Silakan masukkan kode kupon';
+                    couponMessage.className = 'coupon-message coupon-error';
+                    return;
+                }
+                
+                if (validCoupons.hasOwnProperty(couponCode)) {
+                    const discount = validCoupons[couponCode];
+                    if (discount === 100) {
+                        couponMessage.textContent = 'Selamat! Anda mendapatkan 1 kopi gratis!';
+                    } else {
+                        couponMessage.textContent = `Selamat! Anda mendapatkan diskon ${discount}%!`;
+                    }
+                    couponMessage.className = 'coupon-message coupon-success';
+                } else {
+                    couponMessage.textContent = 'Kode kupon tidak valid atau sudah kadaluarsa';
+                    couponMessage.className = 'coupon-message coupon-error';
+                }
+            });
+
             // Form submission to WhatsApp
             document.getElementById('orderForm').addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -558,14 +664,21 @@
                 const produk = document.getElementById('produk').value;
                 const jumlah = document.getElementById('jumlah').value;
                 const catatan = document.getElementById('catatan').value;
+                const kupon = document.getElementById('kupon').value;
 
                 // Format WhatsApp message
-                const pesan = `Halo Kopi Mandor, saya ingin memesan:\n\n` +
+                let pesan = `Halo Kopi Mandor, saya ingin memesan:\n\n` +
                     `Nama: ${nama}\n` +
                     `Alamat: ${alamat}\n` +
                     `Produk: ${produk}\n` +
-                    `Jumlah: ${jumlah}\n` +
-                    `Catatan: ${catatan || '-'}\n\n` +
+                    `Jumlah: ${jumlah}\n`;
+                
+                // Add coupon info if provided
+                if (kupon) {
+                    pesan += `Kupon: ${kupon}\n`;
+                }
+                
+                pesan += `Catatan: ${catatan || '-'}\n\n` +
                     `Mohon info total pembayaran dan cara pembayarannya. Terima kasih!`;
 
                 // Direct to WhatsApp with the phone number +62 877-4837-7660
